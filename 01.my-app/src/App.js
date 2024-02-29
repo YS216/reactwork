@@ -1,24 +1,16 @@
-import logo from './logo.svg';
 import './App.css';
 
 function App() {
+  // 주석
+  /*
+    여러줄 주석
+  */
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>{/* 여러줄 일 때 반드시 최상위 태그가 있어야 한다 */}
+      <h1>react test 하고 있음</h1>
+      <p>오늘 본격적인 react를 할 예정입니다</p>
+      {/* 주석 */}
+    </>
   );
 }
 
