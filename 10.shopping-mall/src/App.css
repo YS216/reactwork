@@ -1,0 +1,11 @@
+.App {
+  text-align: center;
+}
+
+.main-bg {
+  height: 450px;
+  background-image: url("./img/main_bg.png");
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+}

@@ -1,0 +1,19 @@
+#header{
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  height: 13vh;
+  background-color: lemonchiffon;
+}
+#header .slogo{
+  width: 50px;
+}
+#header .slogin{
+  padding-right: 30px;
+}
+#footer{
+  text-align: left;
+  padding: 20px;
+  font-size: small;
+  background-color: lemonchiffon;
+}

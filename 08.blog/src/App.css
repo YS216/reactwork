@@ -16,4 +16,10 @@
 }
 .span-left {
   margin-left: 50px;
+  cursor: pointer;
+}
+.modal {
+  text-align: left;
+  background-color: rgb(231, 231, 231);
+  padding: 10px 20px;
 }
