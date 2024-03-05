@@ -1,40 +1,20 @@
-import { useContext, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Container, Row, Col, Button, Nav } from 'react-bootstrap';
 import { useParams } from 'react-router-dom';
-import './../App.css';
-import { Context1 } from './../App';
-
 /*
-  Single page Application의 단점
-  1) 컴포넌트간의 state공유 어려움
-     특히, 형제간의 컴포넌트의 공유
-
-  공동으로 사용할 수 있는 방법
-  1) Context Api 문법
-  2) Redux 외부라이브러리 사용
-
+탭 만들기
 */
-function Detail(props) {
 
-  let a = useContext(Context1)
-  console.log(a);
+function Detail(props) {
 
   let {id} = useParams();
   let findId = props.clothes.find(function(x){
     return x.id == id
   })
   let [tab, setTab] = useState(0);
-  let [fade2, setFade2] = useState('')
-
-  useEffect(()=>{
-    setTimeout(()=>{setFade2('end')}, 200)
-    return()=>{
-      setFade2('')
-    }
-  },[])
 
   return(
-    <div className={`start ${fade2}`}>
+    <>
       <Container>
         <Row>
           <Col md={6}>
@@ -61,27 +41,41 @@ function Detail(props) {
         </Nav.Item>
       </Nav>
 
-      <TabContent tab={tab} clothes={props.clothes[0]}/>
-    </div>
+      {/* {
+        tab == 0 ? <div>내용0</div> : ( tab == 1 ? <div>내용1</div> : tab == 2 ? <div>내용2</div> : null  )
+      } */}
+
+      <TabContent tab={tab}/>
+    </>
   )
 }
-
-function TabContent({tab, clothes}) {
-  
-  let [fade, setFade] = useState('')
-  let {stock} = useContext(Context1)
-
-  useEffect(()=>{
-    setTimeout(()=>{setFade('end')}, 200)
-    return()=>{
-      setFade('')
-    }
-  },[tab])
-
-  return ( 
-    <div className={`start ${fade}`}>
-      { [<div>{stock}</div>,<div>내용1</div>,<div>내용2</div>][tab] } 
-    </div>
-  )
+/* 
+function TabContent(props) {
+  if (props.tab==0) {
+    return <div>내용0</div>
+  } else if(props.tab==1) {
+    return <div>내용1</div>
+  } else  {
+    return <div>내용2</div>
+  }
 }
+*/
+
+// props가 싫으면 매개변수를 받을 때 변수를 직접 입력해 주면 됨
+/* 
+function TabContent({tab}) {
+  if (tab==0) {
+    return <div>내용0</div>
+  } else if(tab==1) {
+    return <div>내용1</div>
+  } else  {
+    return <div>내용2</div>
+  }
+}
+ */
+
+function TabContent({tab}) {
+  return [<div>내용0</div>,<div>내용1</div>,<div>내용2</div>][tab]
+}
+
 export default Detail;

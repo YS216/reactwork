@@ -1,23 +1,15 @@
-import { useContext, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Container, Row, Col, Button, Nav } from 'react-bootstrap';
 import { useParams } from 'react-router-dom';
 import './../App.css';
-import { Context1 } from './../App';
-
 /*
-  Single page Application의 단점
-  1) 컴포넌트간의 state공유 어려움
-     특히, 형제간의 컴포넌트의 공유
-
-  공동으로 사용할 수 있는 방법
-  1) Context Api 문법
-  2) Redux 외부라이브러리 사용
-
+  전환 애니메이션
+  1) css에 애니메이션 동작 전 스타일(className)
+  2) css에 애니메이션 동작 후 스타일(className)
+  3) transtion 속성 추가
+  4) 원하는 태그에 속성 className 넣었다 뺏다
 */
 function Detail(props) {
-
-  let a = useContext(Context1)
-  console.log(a);
 
   let {id} = useParams();
   let findId = props.clothes.find(function(x){
@@ -61,15 +53,13 @@ function Detail(props) {
         </Nav.Item>
       </Nav>
 
-      <TabContent tab={tab} clothes={props.clothes[0]}/>
+      <TabContent tab={tab}/>
     </div>
   )
 }
 
-function TabContent({tab, clothes}) {
-  
+function TabContent({tab}) {
   let [fade, setFade] = useState('')
-  let {stock} = useContext(Context1)
 
   useEffect(()=>{
     setTimeout(()=>{setFade('end')}, 200)
@@ -80,7 +70,7 @@ function TabContent({tab, clothes}) {
 
   return ( 
     <div className={`start ${fade}`}>
-      { [<div>{stock}</div>,<div>내용1</div>,<div>내용2</div>][tab] } 
+      { [<div>내용0</div>,<div>내용1</div>,<div>내용2</div>][tab] } 
     </div>
   )
 }
