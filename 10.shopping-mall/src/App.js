@@ -1,25 +1,75 @@
 import './App.css';
 import {Navbar,Container,Nav, Row, Col, Button} from 'react-bootstrap';
-import { createContext, useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Routes, Route, useNavigate, Outlet } from 'react-router-dom';
 import pList from './data/ProductList';
 import Detail from './pages/Detail';
 import axios from 'axios';
-
+import Cart from './pages/Cart';
+import { QueryClient, QueryClientProvider, useQuery } from 'react-query';
 /*
-  - AJAX 사용
-    설치 : npm i axios
+  Redux사용
+  1) 설치 : npm i @reduxjs/toolkit@1.8.1 react-redux
+
+  ajax에서 실시간으로 재전송 자동으로하기
+  설치 : npm i react-query
 */
-
-export let Context1 = createContext();
-
 function App() {
+
+  localStorage.setItem('name','kim')
+
+  /* 객체는 그냥 넣으면 안됨
+  let obj = {'tel':'010-1111-2222'}
+  localStorage.setItem('objTel', obj)
+ */
+
+  // JSON으로 바꾸어서 넣음
+  let obj = {'tel':'010-1111-2222'}
+  localStorage.setItem('data', JSON.stringify(obj))
+
+  // string형
+  let name = localStorage.getItem('name')
+  console.log(name)
+
+  // 객체
+  let data = localStorage.getItem('data')
+  console.log(data)                   // 객체출력
+  console.log(JSON.parse(data).tel)  // tel키에 해당하는 값만 출력
+
   let [stock, setStock] = useState([10,11,12]);
 
   let [clothes, setClothes] = useState(pList);
   let navigate = useNavigate();  // 페이지의 이동을 도와주는 함수
   let [btnCount, setBtnCount] = useState(2);
 
+  useEffect(()=>{
+    if(localStorage.getItem('watched') == null)
+      localStorage.setItem('watched', JSON.stringify( [] ))
+  },[])
+/* 
+  axios.get('https://raw.githubusercontent.com/professorjiwon/data/main/userdata.json')
+    .then(()=>{})
+ */
+
+/*   let result = useQuery('userdata', () =>{
+    axios.get('https://raw.githubusercontent.com/professorjiwon/data/main/userdata.json')
+         .then((a)=>{
+            console.log(a.data.name)
+            return a.data
+         })
+  })  */ 
+
+  const [resultData, setResultData] = useState('');
+
+  useQuery('userdata', () => {
+   axios.get('https://raw.githubusercontent.com/professorjiwon/data/main/userdata.json')
+   .then((result) => {
+         console.log(result);
+         console.log(result.data.name);
+         setResultData(result.data.name);
+   })
+  }) 
+  
   return (
     <div className="App">
       <Navbar bg="light" data-bs-theme="light">
@@ -30,6 +80,7 @@ function App() {
             <Nav.Link onClick={()=>{ navigate('/cart') }}>Cart</Nav.Link>
             <Nav.Link onClick={()=>{ navigate(-1) }}>뒤로</Nav.Link>
           </Nav>
+          <Nav className="me-auto">{resultData}님 환영합니다</Nav>
         </Container>
       </Navbar>
 
@@ -90,12 +141,10 @@ function App() {
         }/>
 
         <Route path='/detail/:id' element={
-          <Context1.Provider value={{stock, clothes}}>
             <Detail clothes={clothes} />
-          </Context1.Provider>
         }/>
 
-        <Route path='/cart' element={<div>장바구니</div>}/>
+        <Route path='/cart' element={<Cart/>}/>
         <Route path='*' element={<div>없는 페이지 입니다.</div>}/> {/* 404페이지 */}
 
         <Route path='/about' element={ <About /> }>
@@ -118,10 +167,13 @@ function About() {
 }
 
 function PListImg(props) {
+  let navigate = useNavigate();
   return (
     <>
       <Col md={4}>
-        <img src={`${process.env.PUBLIC_URL}/img/clothes${props.i}.png`} width="80%"/>
+        <img src={`${process.env.PUBLIC_URL}/img/clothes${props.i}.png`} onClick={()=>{
+          navigate(`detail/${props.clothes.id}`)
+        }} width="80%"/>
         <h4>{props.clothes.title}</h4>
         <p>{props.clothes.price}</p>
       </Col>
