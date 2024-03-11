@@ -1,9 +1,13 @@
 import { useState, useRef } from 'react';
 import './Editor.css';
+import { useDispatch } from 'react-redux';
+import{ onCreate } from '../store';
 
-const Editor = (props) => {
+const Editor = () => {
+  let dispatch = useDispatch();
   const [content, setContent] = useState("");
   const contentRef = useRef();
+  const idRef = useRef(3);
 
   return (
     <div className="Editor">
@@ -13,7 +17,7 @@ const Editor = (props) => {
           contentRef.current.focus();
           return;
         }
-        props.onCreate(content)
+        dispatch(onCreate({content, id:idRef.current++}))
         setContent("")
         }}>추가</button>
     </div>

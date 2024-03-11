@@ -1,9 +1,11 @@
 import { useState } from 'react';
 import './List.css';
 import TodoItem from "./TodoItem";
+import { useSelector } from 'react-redux';
 
-const List = ({todos, onUpdate, onDelete}) => {
+const List = () => {
   const [search, setSearch] = useState("")
+  const todos = useSelector(state => state.todos);
 
   const getFilteredData = () => {
     if(search == "") {
@@ -19,11 +21,11 @@ const List = ({todos, onUpdate, onDelete}) => {
   return (
     <div className="List">
       <h4>Todo List</h4>
-      <input placeholder="검색어를 입력하세요" onChange={(e)=>{setSearch(e.target.value)}}/>
+      <input placeholder="🔍 검색어를 입력하세요" onChange={(e)=>{setSearch(e.target.value)}}/>
       <div className='todos_wrapper'>
         {
           filteredTodos.map( todo =>
-            <TodoItem {...todo} onUpdate={onUpdate} onDelete={onDelete} />
+            <TodoItem {...todo} />
           )
         }
       </div>

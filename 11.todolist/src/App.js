@@ -14,13 +14,13 @@ const tmpData = [
   {
     id:1,
     isDone: false,
-    content: "꿀맛같은 휴식",
+    content: "Spring boot study",
     date: new Date().getTime(),
   },
   {
     id:2,
     isDone: false,
-    content: "친구화의 수다",
+    content: "영화감상",
     date: new Date().getTime(),
   },
 ]
@@ -36,7 +36,7 @@ function App() {
       content: content,
       date: new Date().getTime()
     }
-    setTodos([newItem, ...todos])
+    setTodos([...todos, newItem])
   }
 
   const onUpdate = targetId => {
@@ -54,11 +54,15 @@ function App() {
      */
   }
 
+  const onDelete = (targetId) => {
+    setTodos(todos.filter((todo)=>todo.id != targetId))
+  }
+
   return (
     <div className="App">
       <Header/>
       <Editor onCreate={onCreate} />
-      <List todos={todos} onUpdate={onUpdate} />   
+      <List todos={todos} onUpdate={onUpdate} onDelete={onDelete} />   
     </div>
   );
 }

@@ -1,0 +1,157 @@
+[문항1] Single Page Application의 특징을 서술하시오
+
+- 하나의 패이지로 구성된 어플리케이션
+- 새로운 페이지를 로딩하지 않아 페이지 새로고침이 일어나지 않음. seamless한 서비스 가능
+- 웹이 앱처럼 동작한다.
+- 초기 로딩시간 이후 패이지 탐색에 대한 UX가 높다
+- 다양한 자바스크립트 프레임워크들이 사용됨. (ex) angular, react ...
+- 에이젝스를 활용하여 페이지 일부만 갱신 가능.
+
+
+[문항2] JSX(JavaScript XML)를 작성하는 규칙 5가지를 작성하시오
+
+1. 반드시 부모 요소 하나로 감싸야한다
+2. return되는 JSX는 하나의 요소로 감싸져야한다.
+3. JSX안에서 자바스크립트 표현식을 쓸 수 있다
+4. return문 안에서 if문 대신 조건부 연산자 사용
+	JSX내부의 자바크스립트에서 if문 사용 불가. 대신 {} 안에서 조건부 연산자 사용 가능(삼항연산자)
+5. 속성 nameclass 대신 className 사용됨
+6. 항상 닫는 태그 필요
+7. 주석의 경우 {/* 주석 */}으로 사용
+
+
+
+[문항3] 아래의 문법을 화살표 함수로 바꾸시오
+const func4 = function(num) {
+    return function(value) {
+      return num + value;
+    }
+  }
+ 
+const func4 = num => value => num + value;
+  
+  
+  
+[문항4] props 와 state 에 대해 서술하시오.
+
+props 
+부모 컴포넌트에서 자식 컴포넌트로 데이터 전달 시 사용됨.
+읽기전용이며, 자식 컴포넌트에서 수정 불가능
+
+state
+컴포넌트 내부에서 관리되는 데이터.
+컴포넌트 생성시 초기화되며, 사용자나 외부 이벤트로 업데이트 된다.
+컴포넌트 내에서 수정 가능, setState 함수를 통헤 업데이트 가능.
+state가 변경되면 콤포넌트 다시 랜더링하고, 화면이 업데이트됨
+
+
+
+
+[문항5] props 로 전달받는 인자를 비구조화 할당 방식으로 사용 하고자 한다. 적절한 방법 2가지를 작성하시오.
+function PropsPrinter( props ) {
+
+            return (
+                <>
+                    <h1>제 이름은 { name }입니다.</h1>
+                    <h3>제가 가지고 있는 children은 { children }입니다.</h3>
+                </>   
+            );
+        }
+
+1. 직접 비구조화 할당
+function PropsPrinter(props) {
+  const{name, children} = props;
+  
+  return(
+  <>
+    <h1>제 이름은 {name}입니다.</h1>
+	<h3>제가 가지고 있는 children은 {children}입니다.</h3>
+  </>
+	
+  );
+}
+
+
+2. 함수 매개변수에서 비구조화 할당
+
+function PropsPrinter({ name, children }) {
+  return (
+    <>
+      <h1>제 이름은 {name}입니다.</h1>
+      <h3>제가 가지고 있는 children은 {children}입니다.</h3>
+    </>
+  );
+}
+
+
+[문항6] 리액트에서 정의하는 컴포넌트 종류 두가지를 작성하고 특징을 간단하게 서술 하시오
+
+1. 함수형 컴포넌트
+	함수로 정의되어 있으며, 간단한 ui 표현이나 상태가 없는 컴포넌트에 사용.
+	간단하고 가독성이 좋다
+	Hooks 기능을 사용하여 상태나 다른 React 기능을 함수형 컴포넌트에서 사용할 수 있게 되었다
+
+2. 클래스형 컴포넌트
+	react 초기에 주로 사용됨
+	복잡한 로직을 다를 수 있다.
+	함수형 컴포넌트와 Hooks가 많이 사용되면서, 클래스형 컴포넌트의 사용은 감소중이다
+
+
+
+
+	
+[문항7] 아래 App.js에서 라우터 설정에 1, 2에 해당하는 적절한 구문을 작성하시오.
+
+1. http://localhost:3000/menu 로 호출 할수 있도록 작성
+2. 설정되지 않은 잘못된 경로 호출시 import 된 에러페이지가 연결되도록 작성
+
+function App() {
+ 
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={ <Layout/> }>
+          <Route index element={ <Main/> }/>
+          <Route path="mypage" element={ <MyPage/> }/>
+          <Route path="login" element={ <Login/> }/>
+        /****************** 1 **********************/
+
+        </Route>
+        /****************** 2 **********************/
+      </Routes>
+    </BrowserRouter>
+  );
+}
+
+export default App;
+
+
+function App() {
+ 
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={ <Layout/> }>
+          <Route index element={ <Main/> }/>
+          <Route path="mypage" element={ <MyPage/> }/>
+          <Route path="login" element={ <Login/> }/>
+		  {/* 1. http://localhost:3000/menu 로 호출 할수 있도록 작성 */}
+          <Route path="menu" element={<Menu />} />
+
+        </Route>
+        {/* 2. 설정되지 않은 잘못된 경로 호출시 import 된 에러페이지가 연결되도록 작성 */}
+        <Route path="*" element={<ErrorPage />} />
+      </Routes>
+    </BrowserRouter>
+  );
+}
+
+export default App;
+
+
+
+[문항8] 어떤 경우에 component로 만드는 것이 좋은가 3가지 이상 쓰시오
+
+1. 재사용성을 고려해야하는 경우
+2. 코드의 구조화 및 유지보수를 위한 경우
+3. 상태관리가 필요한 경우
