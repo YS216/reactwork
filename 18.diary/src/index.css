@@ -1,0 +1,25 @@
+@font-face {
+  font-family: "Sejong hospital Bold";
+  src: url("/public/Sejong hospital Bold.ttf");
+}
+
+body *{
+  font-family: "Sejong hospital Bold";
+}
+
+html, body {
+  margin: 0px;
+  width: 100%;
+  background-color: #EDE7F6;
+}
+
+#root {
+  background-color: white;
+  max-width: 600px;
+  width: 100%;
+  margin: 0 auto;
+  min-height: 100vh;
+  height: 100%;
+  box-shadow: rgba(100,100,100,0.2) 0px 0px 29px 0px;
+  padding: 0px 10px;
+}
